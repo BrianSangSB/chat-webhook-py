@@ -1,15 +1,12 @@
 from __future__ import unicode_literals
 
-from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 
-import os
 import requests
 import threading
 import json
 import random
-
 import hashlib, hmac
 
 API_TOKEN = b'4a75b7fb787a3f6b57c4e63050003d619febd82c'
@@ -53,7 +50,7 @@ def validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode):
 
     print("signature_to_compare: " + signature_to_compare)
 
-    assert signature_to_compare == x_sendbird_signature, "x_sendbird_signature is NOT correct!"
+    assert signature_to_compare == x_sendbird_signature, "signature_to_compare is NOT correct!"
 
 
 def sendAdminMessage(category, app_id, channel_url):
