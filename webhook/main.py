@@ -51,6 +51,8 @@ def validate_X_Sendbird_Signature(x_sendbird_signature, webhook_payload):
         msg=bytes(json.dumps(webhook_payload).encode('utf8')),
         digestmod=hashlib.sha256).hexdigest()
 
+    print("signature_to_compare: " + signature_to_compare)
+
     assert signature_to_compare == x_sendbird_signature, "x_sendbird_signature is NOT correct!"
 
 
