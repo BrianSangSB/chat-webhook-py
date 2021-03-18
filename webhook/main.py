@@ -8,6 +8,10 @@ import threading
 import json
 import random
 
+from __future__ import unicode_literals
+import hashlib, hmac
+
+API_TOKEN = b'4a75b7fb787a3f6b57c4e63050003d619febd82c'
 
 @csrf_exempt
 def index(request):
@@ -20,15 +24,17 @@ def index(request):
         print("Received POST")
 
         body_unicode = request.body.decode('utf-8')
-        data = json.loads(body_unicode)
-        print("data: " + str(data))
+        webhook_payload = json.loads(body_unicode)
+        print("webhook_payload: " + str(webhook_payload))
 
-        category = data['category']
-        app_id = data['app_id']
-        channel_url = data['channel']['channel_url']
+        category = webhook_payload['category']
+        app_id = webhook_payload['app_id']
+        channel_url = webhook_payload['channel']['channel_url']
 
         print("app_id: " + app_id)
         print("channel_url: " + channel_url)
+
+        validate_X_Sendbird_Signature(webhook_payload)
 
         thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url))
         thread.start()
@@ -36,10 +42,19 @@ def index(request):
         return HttpResponse('Hello webhook!')
 
 
+def validate_X_Sendbird_Signature(webhook_payload):
+    signature_to_compare = hmac.new(
+        key=API_TOKEN,
+        msg=bytes(webhook_payload.encode('utf8')),
+        digestmod=hashlib.sha256).hexdigest()
+
+    assert signature_to_compare == 'x_sendbird_signature', "x_sendbird_signature is NOT correct!"
+
+
 def sendAdminMessage(category, app_id, channel_url):
     URL = "https://api-" + app_id + ".sendbird.com/v3/group_channels/" + channel_url + "/messages"
-    headers = {"Content-Type": "application/json; charset=utf8",
-               "Api-Token": "4a75b7fb787a3f6b57c4e63050003d619febd82c"}
+    headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}
+
     if category == "group_channel:create":
         (quote, author) = selectQuote()
         data = {"message_type": "ADMM", "message": quote, "data": "Author: " + author}
