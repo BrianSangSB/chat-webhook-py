@@ -45,10 +45,11 @@ def index(request):
         return HttpResponse('Hello webhook!')
 
 
-def validate_X_Sendbird_Signature(x_sendbird_signature, webhook_payload):
+def validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode):
     signature_to_compare = hmac.new(
         key=API_TOKEN,
-        msg=bytes(webhook_payload.encode('utf8')),
+        #msg=bytes(body_unicode.encode('utf8')),
+        msg=bytes(body_unicode),
         digestmod=hashlib.sha256).hexdigest()
 
     print("signature_to_compare: " + signature_to_compare)
