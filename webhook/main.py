@@ -37,7 +37,7 @@ def index(request):
 
         x_sendbird_signature = headers['X-Sendbird-Signature']
         print("x_sendbird_signature: " + x_sendbird_signature)
-        validate_X_Sendbird_Signature(x_sendbird_signature, webhook_payload)
+        validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode)
 
         thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url))
         thread.start()
@@ -48,7 +48,7 @@ def index(request):
 def validate_X_Sendbird_Signature(x_sendbird_signature, webhook_payload):
     signature_to_compare = hmac.new(
         key=API_TOKEN,
-        msg=bytes(json.dumps(webhook_payload).encode('utf8')),
+        msg=bytes(webhook_payload.encode('utf8')),
         digestmod=hashlib.sha256).hexdigest()
 
     print("signature_to_compare: " + signature_to_compare)
