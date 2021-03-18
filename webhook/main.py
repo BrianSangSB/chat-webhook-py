@@ -25,12 +25,12 @@ def index(request):
         print("Received POST")
 
         body_unicode = request.body.decode('utf-8')
-        webhook_payload = json.loads(body_unicode)
-        print("webhook_payload: " + str(webhook_payload))
+        body_json = json.loads(body_unicode)
+        print("webhook_payload: " + str(body_json))
 
-        category = webhook_payload['category']
-        app_id = webhook_payload['app_id']
-        channel_url = webhook_payload['channel']['channel_url']
+        category = body_json['category']
+        app_id = body_json['app_id']
+        channel_url = body_json['channel']['channel_url']
 
         print("app_id: " + app_id)
         print("channel_url: " + channel_url)
@@ -48,8 +48,7 @@ def index(request):
 def validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode):
     signature_to_compare = hmac.new(
         key=API_TOKEN,
-        #msg=bytes(body_unicode.encode('utf8')),
-        msg=bytes(body_unicode),
+        msg=bytes(body_unicode.encode('utf8')),
         digestmod=hashlib.sha256).hexdigest()
 
     print("signature_to_compare: " + signature_to_compare)
