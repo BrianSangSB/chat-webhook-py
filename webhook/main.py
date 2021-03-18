@@ -46,7 +46,7 @@ def index(request):
 def validate_X_Sendbird_Signature(webhook_payload):
     signature_to_compare = hmac.new(
         key=API_TOKEN,
-        msg=bytes(webhook_payload.encode('utf8')),
+        msg=bytes(json.dumps(webhook_payload).encode('utf8')),
         digestmod=hashlib.sha256).hexdigest()
 
     assert signature_to_compare == 'x_sendbird_signature', "x_sendbird_signature is NOT correct!"
