@@ -1,3 +1,5 @@
+from __future__ import unicode_literals
+
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -8,7 +10,6 @@ import threading
 import json
 import random
 
-from __future__ import unicode_literals
 import hashlib, hmac
 
 API_TOKEN = b'4a75b7fb787a3f6b57c4e63050003d619febd82c'
