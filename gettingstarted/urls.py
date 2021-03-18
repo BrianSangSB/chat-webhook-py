@@ -5,6 +5,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 import hello.views
+import webhook.main
 
 # To add a new path, first import the app:
 # import blog
@@ -17,5 +18,6 @@ import hello.views
 urlpatterns = [
     path("", hello.views.index, name="index"),
     path("db/", hello.views.db, name="db"),
+    path("webhook/", webhook.main.index, name="webhook"),
     path("admin/", admin.site.urls),
 ]
