@@ -9,9 +9,8 @@ import json
 import random
 import hashlib, hmac
 import os
-from boto.s3.connection import S3Connection
 
-s3 = S3Connection(os.environ['API_TOKEN'])
+API_KEY = os.getenv('API_KEY')
 
 @csrf_exempt
 def index(request):
