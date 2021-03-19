@@ -10,7 +10,7 @@ import random
 import hashlib, hmac
 import os
 
-API_KEY = os.getenv('API_KEY')
+API_TOKEN = os.getenv('API_TOKEN')
 
 @csrf_exempt
 def index(request):
