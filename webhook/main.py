@@ -22,7 +22,7 @@ def index(request):
     elif request.method == 'POST':
         print("Received POST")
 
-        body_unicode = request.body.decode('utf-8')
+        body_unicode = request.body.decode()
         body_json = json.loads(body_unicode)
         print("body_json: " + str(body_json))
 
@@ -42,7 +42,7 @@ def index(request):
 def validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode):
     signature_to_compare = hmac.new(
         key=API_TOKEN,
-        msg=bytes(body_unicode.encode('utf8')),
+        msg=bytes(body_unicode.encode()),
         digestmod=hashlib.sha256).hexdigest()
 
     print("signature_to_compare: " + signature_to_compare)
