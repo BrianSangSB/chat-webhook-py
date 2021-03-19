@@ -8,8 +8,10 @@ import threading
 import json
 import random
 import hashlib, hmac
+import os
 
-API_TOKEN = b'4a75b7fb787a3f6b57c4e63050003d619febd82c'
+#API_TOKEN = b'4a75b7fb787a3f6b57c4e63050003d619febd82c'
+API_TOKEN = os.environ.get("API_TOKEN")
 
 @csrf_exempt
 def index(request):
@@ -50,7 +52,7 @@ def validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode):
 
     print("signature_to_compare: " + signature_to_compare)
 
-    assert signature_to_compare == x_sendbird_signature, "signature_to_compare is NOT correct!"
+    assert signature_to_compare == x_sendbird_signature, "x_sendbird_signature is different!"
 
 
 def sendAdminMessage(category, app_id, channel_url):
