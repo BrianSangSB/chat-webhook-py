@@ -3,4 +3,3 @@ gunicorn
 django-heroku
 requests
 django-request-logging
-boto

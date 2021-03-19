@@ -26,12 +26,12 @@ def index(request):
         body_json = json.loads(body_unicode)
         print("body_json: " + str(body_json))
 
+        x_sendbird_signature = headers['X-Sendbird-Signature']
+        validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode)
+
         category = body_json['category']
         app_id = body_json['app_id']
         channel_url = body_json['channel']['channel_url']
-
-        x_sendbird_signature = headers['X-Sendbird-Signature']
-        validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode)
 
         thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url))
         thread.start()
