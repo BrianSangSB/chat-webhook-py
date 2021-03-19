@@ -24,17 +24,13 @@ def index(request):
 
         body_unicode = request.body.decode('utf-8')
         body_json = json.loads(body_unicode)
-        print("webhook_payload: " + str(body_json))
+        print("body_json: " + str(body_json))
 
         category = body_json['category']
         app_id = body_json['app_id']
         channel_url = body_json['channel']['channel_url']
 
-        print("app_id: " + app_id)
-        print("channel_url: " + channel_url)
-
         x_sendbird_signature = headers['X-Sendbird-Signature']
-        print("x_sendbird_signature: " + x_sendbird_signature)
         validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode)
 
         thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url))
