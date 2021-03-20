@@ -33,7 +33,7 @@ def index(request):
         app_id = body_json['app_id']
         channel_url = body_json['channel']['channel_url']
 
-        if category == "group_cahnnel:create": 
+        if category == "group_channel:create": 
             thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url))
             thread.start()
         elif category == "group_channel:message_delete":
