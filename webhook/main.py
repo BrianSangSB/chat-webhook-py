@@ -32,13 +32,12 @@ def index(request):
         category = body_json['category']
         app_id = body_json['app_id']
         channel_url = body_json['channel']['channel_url']
-        user_id = body_json['sender']['user_id']
 
         if category == "group_channel:create": 
             thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url))
             thread.start()
         elif category == "group_channel:message_delete":
-            thread = threading.Thread(target=sendMessage, args=(category, app_id, channel_url, user_id))
+            thread = threading.Thread(target=sendMessage, args=(category, app_id, channel_url))
             thread.start()
         return HttpResponse('Hello webhook!')
 
@@ -70,7 +69,7 @@ def sendMessage(category, app_id, channel_url, user_id):
     headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}
 
     if category == "group_channel:message_delete":
-        data = {"message_type": "MESG", "user_id": user_id, "message": "Message deleted"}
+        data = {"message_type": "MESG", "user_id": "admin", "message": "Message deleted"}
         res = requests.post(URL, headers=headers, data=json.dumps(data))
         print("response: " + res.text)
 
