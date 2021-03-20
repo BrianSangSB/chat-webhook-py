@@ -31,9 +31,8 @@ Your app should now be running on [localhost:5000](http://localhost:5000/).
 $ heroku create
 $ git push heroku main
 
-$ heroku config:set API_TOKEN=<API_TOKEN VALUE> # Set API_TOKEN environment variable 
-
 $ heroku config:unset API_TOKEN # Unset API_TOKEN environment variable if needed 
+$ heroku config:set API_TOKEN=<API_TOKEN VALUE> # Set API_TOKEN environment variable 
 
 $ heroku run python manage.py migrate
 $ heroku open
