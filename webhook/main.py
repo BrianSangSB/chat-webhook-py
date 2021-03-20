@@ -34,12 +34,12 @@ def index(request):
         category = body_json['category']
         app_id = body_json['app_id']
         channel_url = body_json['channel']['channel_url']
-        user_id = body_json['sender']['user_id']
 
         if category == "group_channel:create": 
             thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url))
             thread.start()
         elif category == "group_channel:message_delete":
+            user_id = body_json['sender']['user_id']
             thread = threading.Thread(target=sendMessage, args=(category, app_id, channel_url, user_id))
             thread.start()
         return HttpResponse('Hello webhook!')
