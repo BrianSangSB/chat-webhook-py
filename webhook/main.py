@@ -64,7 +64,7 @@ def sendAdminMessage(category, app_id, channel_url):
         print("response: " + res.text)
 
 
-def sendMessage(category, app_id, channel_url, user_id):
+def sendMessage(category, app_id, channel_url):
     URL = "https://api-" + app_id + ".sendbird.com/v3/group_channels/" + channel_url + "/messages"
     headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}
 
