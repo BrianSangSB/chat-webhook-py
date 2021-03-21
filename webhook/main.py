@@ -62,7 +62,7 @@ def sendAdminMessage(category, app_id, channel_url):
 
     if category == "group_channel:create":
         (quote, author) = selectQuote()
-        data = {"message_type": "ADMM", "message": quote, "data": "{\"Author\": \"" + author + "\""}
+        data = {"message_type": "ADMM", "message": quote, "data": "{\"Author\": \"" + author + "\"}"}
         res = requests.post(URL, headers=headers, data=json.dumps(data))
         print("Response: " + res.text)
 
