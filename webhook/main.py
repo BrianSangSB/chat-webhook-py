@@ -19,7 +19,7 @@ def index(request):
     if request.method == 'GET':
         print("Received GET")
         print("header: " + str(headers))
-        return HttpResponse('Hellow GET')
+        return HttpResponse('Hello GET')
     elif request.method == 'POST':
         print("Received POST")
         print("Request headers: " + str(headers))
