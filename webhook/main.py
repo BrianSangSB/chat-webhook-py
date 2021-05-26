@@ -11,6 +11,7 @@ import hashlib, hmac
 import os
 
 API_TOKEN = os.getenv('API_TOKEN').encode()
+#API_TOKEN = os.getenv('API_TOKEN')
 
 @csrf_exempt
 def index(request):
