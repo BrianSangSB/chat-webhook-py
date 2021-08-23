@@ -61,7 +61,8 @@ def sendAdminMessage(category, app_id, channel_url, message):
 
     if message == "quote":
         (quote, author) = selectQuote()
-        data = {"message_type": "ADMM", "message": quote, "data": "{\"Author\": \"" + author + "\"}"}
+        #data = {"message_type": "ADMM", "message": quote, "data": "{\"Author\": \"" + author + "\"}"}
+        data = {"message_type": "ADMM", "message": quote}
     elif message == "ping":
         data = {"message_type": "ADMM", "message": "pong"}
     res = requests.post(URL, headers=headers, data=json.dumps(data))
