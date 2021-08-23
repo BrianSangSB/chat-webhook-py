@@ -9,6 +9,7 @@ import json
 import random
 import hashlib, hmac
 import os
+import time
 
 API_TOKEN = os.getenv('API_TOKEN').encode()
 #API_TOKEN = os.getenv('API_TOKEN')
@@ -38,6 +39,7 @@ def index(request):
         message = body_json['message']['text'].lower()
 
         if category == "bot_message_notification": 
+            time.sleep(3000)
             thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url, message))
             thread.start()
         return HttpResponse('Hello bot!')
@@ -57,7 +59,7 @@ def validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode):
 def sendAdminMessage(category, app_id, channel_url, message):
     URL = "https://api-" + app_id + ".sendbird.com/v3/group_channels/" + channel_url + "/messages"
     headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}
-    data = "" 
+    data = {}
     if message == "quote":
         (quote, author) = selectQuote()
         #data = {"message_type": "ADMM", "message": quote, "data": "{\"Author\": \"" + author + "\"}"}
