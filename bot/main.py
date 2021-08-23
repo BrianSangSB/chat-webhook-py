@@ -35,15 +35,13 @@ def index(request):
         category = body_json['category']
         app_id = body_json['app_id']
         channel_url = body_json['channel']['channel_url']
+        message = body_json['message']['text'].lower()
 
-        if category == "group_channel:create": 
-            thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url))
-            thread.start()
-        elif category == "group_channel:message_delete":
-            user_id = body_json['sender']['user_id']
-            thread = threading.Thread(target=sendMessage, args=(category, app_id, channel_url, user_id))
-            thread.start()
-        return HttpResponse('Hello webhook!')
+        if category == "bot_message_notification": 
+            if message == 'ping':
+                thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url, message))
+                thread.start()
+        return HttpResponse('Hello bot!')
 
 
 def validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode):
@@ -57,15 +55,17 @@ def validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode):
     assert signature_to_compare == x_sendbird_signature, "x_sendbird_signature is different!"
 
 
-def sendAdminMessage(category, app_id, channel_url):
+def sendAdminMessage(category, app_id, channel_url, message):
     URL = "https://api-" + app_id + ".sendbird.com/v3/group_channels/" + channel_url + "/messages"
     headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}
 
-    if category == "group_channel:create":
+    if message == "quote":
         (quote, author) = selectQuote()
         data = {"message_type": "ADMM", "message": quote, "data": "{\"Author\": \"" + author + "\"}"}
-        res = requests.post(URL, headers=headers, data=json.dumps(data))
-        print("Response: " + res.text)
+    elif message == "ping":
+        data = {"message_type": "ADMM", "message": "pong"}
+    res = requests.post(URL, headers=headers, data=json.dumps(data))
+    print("Response: " + res.text)
 
 
 def sendMessage(category, app_id, channel_url, user_id):
