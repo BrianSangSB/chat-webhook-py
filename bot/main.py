@@ -39,7 +39,6 @@ def index(request):
         message = body_json['message']['text'].lower()
 
         if category == "bot_message_notification": 
-            time.sleep(3000)
             thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url, message))
             thread.start()
         return HttpResponse('Hello bot!')
@@ -65,6 +64,7 @@ def sendAdminMessage(category, app_id, channel_url, message):
         #data = {"message_type": "ADMM", "message": quote, "data": "{\"Author\": \"" + author + "\"}"}
         data = {"message_type": "ADMM", "message": quote}
     elif message == "ping":
+        time.sleep(3000)
         data = {"message_type": "ADMM", "message": "pong"}
     res = requests.post(URL, headers=headers, data=json.dumps(data))
     print("Response: " + res.text)
