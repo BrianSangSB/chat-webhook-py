@@ -6,6 +6,7 @@ admin.autodiscover()
 
 import hello.views
 import webhook.main
+import bot.main
 
 # To add a new path, first import the app:
 # import blog
@@ -19,5 +20,6 @@ urlpatterns = [
     path("", hello.views.index, name="index"),
     path("db/", hello.views.db, name="db"),
     path("webhook/", webhook.main.index, name="webhook"),
+    path("bot/", bot.main.index, name="bot"),
     path("admin/", admin.site.urls),
 ]
