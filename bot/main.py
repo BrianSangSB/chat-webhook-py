@@ -38,9 +38,8 @@ def index(request):
         message = body_json['message']['text'].lower()
 
         if category == "bot_message_notification": 
-            if message == 'ping':
-                thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url, message))
-                thread.start()
+            thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url, message))
+            thread.start()
         return HttpResponse('Hello bot!')
 
 
