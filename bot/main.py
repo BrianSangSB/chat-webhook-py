@@ -44,7 +44,6 @@ def index(request):
                 # thread.start()
 
                 URL = "https://api-" + app_id + ".sendbird.com/v3/group_channels/" + channel_url + "/messages"
-                headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}
                 # data = {}
                 if message == "quote":
                     (quote, author) = selectQuote()
@@ -54,9 +53,10 @@ def index(request):
                     # time.sleep(3)
                     # print('waited 3 secs')
                     data = {"message_type": "ADMM", "message": "pong"}
+
                 # res = requests.post(URL, headers=headers, data=json.dumps(data))
                 # print("Response: " + res.text)
-                return HttpResponse.post(URL, headers=headers, data=json.dumps(data))
+                return HttpResponse(url = URL, headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}, content = data) 
             else: 
                 return HttpResponse('Hello bot!')
 
