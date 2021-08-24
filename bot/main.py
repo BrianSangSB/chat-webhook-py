@@ -43,23 +43,23 @@ def index(request):
                 thread = threading.Thread(target=sendMessage, args=(category, app_id, channel_url, message))
                 thread.start()
 
-            #     URL = "https://api-" + app_id + ".sendbird.com/v3/group_channels/" + channel_url + "/messages"
-            #     # data = {}
-            #     if message == "quote":
-            #         (quote, author) = selectQuote()
-            #         #data = {"message_type": "ADMM", "message": quote, "data": "{\"Author\": \"" + author + "\"}"}
-            #         data = {"message_type": "ADMM", "message": quote}
-            #     elif message == "ping":
-            #         # time.sleep(3)
-            #         # print('waited 3 secs')
-            #         data = {"message_type": "ADMM", "message": "pong"}
+            time.sleep(3)
+            return HttpResponse('Hello SendBird!')
 
-            #     # res = requests.post(URL, headers=headers, data=json.dumps(data))
-            #     # print("Response: " + res.text)
-            #     return HttpResponse(url = URL, headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}, content = data) 
 
-            # time.sleep(3)
-            return HttpResponse('Hello bot!')
+def sendMessage(category, app_id, channel_url, message):
+    URL = "https://api-" + app_id + ".sendbird.com/v3/group_channels/" + channel_url + "/messages"
+    headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}
+    data = {}
+    if message == "quote":
+        (quote, author) = selectQuote()
+        data = {"message_type": "MESG", "user_id": "pong_bot", "message": quote}
+    elif message == "ping":
+        # time.sleep(3)
+        # print('waited 3 secs')
+        data = {"message_type": "MESG", "user_id": "pong_bot", "message": "pong"}
+    res = requests.post(URL, headers=headers, data=json.dumps(data))
+    print("Response: " + res.text)
 
 
 def sendAdminMessage(category, app_id, channel_url, message):
@@ -74,22 +74,6 @@ def sendAdminMessage(category, app_id, channel_url, message):
         # time.sleep(3)
         # print('waited 3 secs')
         data = {"message_type": "ADMM", "message": "pong"}
-    res = requests.post(URL, headers=headers, data=json.dumps(data))
-    print("Response: " + res.text)
-
-
-
-def sendMessage(category, app_id, channel_url, message):
-    URL = "https://api-" + app_id + ".sendbird.com/v3/group_channels/" + channel_url + "/messages"
-    headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}
-    data = {}
-    if message == "quote":
-        (quote, author) = selectQuote()
-        data = {"message_type": "MESG", "user_id": "pong_bot", "message": quote}
-    elif message == "ping":
-        time.sleep(3)
-        print('waited 3 secs')
-        data = {"message_type": "MESG", "user_id": "pong_bot", "message": "pong"}
     res = requests.post(URL, headers=headers, data=json.dumps(data))
     print("Response: " + res.text)
 
