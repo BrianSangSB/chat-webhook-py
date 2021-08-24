@@ -40,11 +40,52 @@ def index(request):
 
         if category == "bot_message_notification": 
             if message in ["ping", "quote"]:
-                thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url, message))
-                thread.start()
+                # thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url, message))
+                # thread.start()
+                URL = "https://api-" + app_id + ".sendbird.com/v3/group_channels/" + channel_url + "/messages"
+                headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}
+                data = {}
+                if message == "quote":
+                    (quote, author) = selectQuote()
+                    #data = {"message_type": "ADMM", "message": quote, "data": "{\"Author\": \"" + author + "\"}"}
+                    data = {"message_type": "ADMM", "message": quote}
+                elif message == "ping":
+                    # time.sleep(3)
+                    # print('waited 3 secs')
+                    data = {"message_type": "ADMM", "message": "pong"}
+                res = requests.post(URL, headers=headers, data=json.dumps(data))
+                print("Response: " + res.text)
 
-        time.sleep(3)
-        return HttpResponse('Hello bot!')
+        # time.sleep(3)
+        # return HttpResponse('Hello bot!')
+
+
+def sendAdminMessage(category, app_id, channel_url, message):
+    URL = "https://api-" + app_id + ".sendbird.com/v3/group_channels/" + channel_url + "/messages"
+    headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}
+    data = {}
+    if message == "quote":
+        (quote, author) = selectQuote()
+        #data = {"message_type": "ADMM", "message": quote, "data": "{\"Author\": \"" + author + "\"}"}
+        data = {"message_type": "ADMM", "message": quote}
+    elif message == "ping":
+        # time.sleep(3)
+        # print('waited 3 secs')
+        data = {"message_type": "ADMM", "message": "pong"}
+    res = requests.post(URL, headers=headers, data=json.dumps(data))
+    print("Response: " + res.text)
+
+    return HttpResponse('Hello bot!')
+
+
+def sendMessage(category, app_id, channel_url, user_id):
+    URL = "https://api-" + app_id + ".sendbird.com/v3/group_channels/" + channel_url + "/messages"
+    headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}
+
+    if category == "group_channel:message_delete":
+        data = {"message_type": "MESG", "user_id": user_id, "message": "[Message deleted]"}
+        res = requests.post(URL, headers=headers, data=json.dumps(data))
+        print("Response: " + res.text)
 
 
 def validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode):
@@ -57,33 +98,6 @@ def validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode):
 
     assert signature_to_compare == x_sendbird_signature, "x_sendbird_signature is different!"
 
-
-def sendAdminMessage(category, app_id, channel_url, message):
-    URL = "https://api-" + app_id + ".sendbird.com/v3/group_channels/" + channel_url + "/messages"
-    headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}
-    data = {}
-    if message == "quote":
-        (quote, author) = selectQuote()
-        #data = {"message_type": "ADMM", "message": quote, "data": "{\"Author\": \"" + author + "\"}"}
-        data = {"message_type": "ADMM", "message": quote}
-    elif message == "ping":
-        time.sleep(3)
-        print('waited 3 secs')
-        data = {"message_type": "ADMM", "message": "pong"}
-    res = requests.post(URL, headers=headers, data=json.dumps(data))
-    print("Response: " + res.text)
-
-    # return HttpResponse('Hello bot!')
-
-
-def sendMessage(category, app_id, channel_url, user_id):
-    URL = "https://api-" + app_id + ".sendbird.com/v3/group_channels/" + channel_url + "/messages"
-    headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}
-
-    if category == "group_channel:message_delete":
-        data = {"message_type": "MESG", "user_id": user_id, "message": "[Message deleted]"}
-        res = requests.post(URL, headers=headers, data=json.dumps(data))
-        print("Response: " + res.text)
 
 def selectQuote():
     quotes = [
