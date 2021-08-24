@@ -87,8 +87,8 @@ def sendMessage(category, app_id, channel_url, message):
         (quote, author) = selectQuote()
         data = {"message_type": "MESG", "user_id": "pong_bot", "message": quote}
     elif message == "ping":
-        # time.sleep(3)
-        # print('waited 3 secs')
+        time.sleep(3)
+        print('waited 3 secs')
         data = {"message_type": "MESG", "user_id": "pong_bot", "message": "pong"}
     res = requests.post(URL, headers=headers, data=json.dumps(data))
     print("Response: " + res.text)
