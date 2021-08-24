@@ -79,13 +79,13 @@ def sendAdminMessage(category, app_id, channel_url, message):
 
 
 
-def sendMessage(category, app_id, channel_url, user_id, message):
+def sendMessage(category, app_id, channel_url, message):
     URL = "https://api-" + app_id + ".sendbird.com/v3/group_channels/" + channel_url + "/messages"
     headers = {"Content-Type": "application/json; charset=utf8", "Api-Token": API_TOKEN}
     data = {}
     if message == "quote":
         (quote, author) = selectQuote()
-        data = {"message_type": "MESG", "user_id": user_id, "message": quote}
+        data = {"message_type": "MESG", "user_id": "pong bot", "message": quote}
     elif message == "ping":
         # time.sleep(3)
         # print('waited 3 secs')
