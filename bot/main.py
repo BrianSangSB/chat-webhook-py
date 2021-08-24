@@ -42,8 +42,8 @@ def index(request):
             if message in ["ping", "quote"]:
                 thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url, message))
                 thread.start()
-        else: 
-            return HttpResponse('Hello bot!')
+
+        return HttpResponse('Hello bot!')
 
 
 def validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode):
