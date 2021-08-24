@@ -55,8 +55,8 @@ def index(request):
                     # print('waited 3 secs')
                     data = {"message_type": "ADMM", "message": "pong"}
                 # res = requests.post(URL, headers=headers, data=json.dumps(data))
-                res = HttpResponse.post(URL, headers=headers, data=json.dumps(data))
-                print("Response: " + res.text)
+                # print("Response: " + res.text)
+                return HttpResponse.post(URL, headers=headers, data=json.dumps(data))
 
         # time.sleep(3)
         # return HttpResponse('Hello bot!')
