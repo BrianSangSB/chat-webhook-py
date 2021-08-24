@@ -43,7 +43,8 @@ def index(request):
                 thread = threading.Thread(target=sendAdminMessage, args=(category, app_id, channel_url, message))
                 thread.start()
 
-        # return HttpResponse('Hello bot!')
+        time.sleep(5)
+        return HttpResponse('Hello bot!')
 
 
 def validate_X_Sendbird_Signature(x_sendbird_signature, body_unicode):
@@ -72,7 +73,7 @@ def sendAdminMessage(category, app_id, channel_url, message):
     res = requests.post(URL, headers=headers, data=json.dumps(data))
     print("Response: " + res.text)
 
-    return HttpResponse('Hello bot!')
+    # return HttpResponse('Hello bot!')
 
 
 def sendMessage(category, app_id, channel_url, user_id):
