@@ -43,7 +43,7 @@ def index(request):
                 thread = threading.Thread(target=sendMessage, args=(category, app_id, channel_url, message))
                 thread.start()
 
-            time.sleep(3)
+            # time.sleep(3)
             return HttpResponse('Hello SendBird!')
 
 
